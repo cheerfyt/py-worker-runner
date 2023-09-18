@@ -1,0 +1,27 @@
+{
+  "name": "py-worker-runner",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && tsc"
+  },
+  "files": [
+    "./dist",
+    "./lib"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "p-retry": "6.0.0"
+  },
+  "devDependencies": {
+    "comlink": "4.4.1",
+    "comsync": "0.0.8",
+    "@types/node": "20.6.2",
+    "pyodide": "0.24.0",
+    "typescript": "5.2.2"
+  }
+}
