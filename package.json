@@ -5,11 +5,12 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf dist && tsc"
+    "build": "rm -rf dist && tsc",
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "./dist",
-    "./lib"
+    "package.json"
   ],
   "keywords": [],
   "author": "",
@@ -23,5 +24,9 @@
     "@types/node": "20.6.2",
     "pyodide": "0.24.0",
     "typescript": "5.2.2"
+  },
+  "volta": {
+    "node": "18.17.1",
+    "npm": "9.8.1"
   }
 }
