@@ -114,9 +114,9 @@ async def install_imports(
         message_callback("loaded_all", to_install)
 `;
 
-async function getPkgArrayBuffer(url: string) {
+async function getPkgArrayBuffer(url: string): Promise<ArrayBuffer> {
   if (bufferCache.has(url)) {
-    return bufferCache.get(url);
+    return bufferCache.get(url)!;
   }
   console.log("Fetch package from [%s]", url);
   const response = await fetch(url);
@@ -259,7 +259,7 @@ export function makeRunnerCallable(
     } else if (type === "output") {
       return callbacks.output(data.parts);
     } else {
-      return callbacks.other(type, data);
+      return callbacks.other!(type, data);
     }
   };
 }
@@ -282,7 +282,7 @@ export class PyodideClient<T = any> extends SyncClient<T> {
         new SharedArrayBuffer(Int32Array.BYTES_PER_ELEMENT * 1)
       );
       this.interrupter = () => {
-        interruptBuffer[0] = 2;
+        interruptBuffer![0] = 2;
       };
     }
 
@@ -330,6 +330,8 @@ export class PyodideFatalErrorReloader {
   }
 }
 
+type ExposeFunc<T extends any[], R> = (extras: PyodideExtras, ...args: T) => R;
+
 /**
  * Call this in your web worker code with a function `func`
  * to allow it to be called from the main thread by `PyodideClient.call`.
@@ -368,7 +370,7 @@ export class PyodideFatalErrorReloader {
  * after running any Python code that musn't be interrupted.
  */
 export function pyodideExpose<T extends any[], R>(
-  func: (extras: PyodideExtras, ...args: T) => R
+  func: ExposeFunc<T, R>
 ): ReturnType<typeof syncExpose> {
   return syncExpose(async function (
     comsyncExtras: SyncExtras,
